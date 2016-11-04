@@ -455,10 +455,7 @@ public abstract class Critter {
 		
 		// Subtract Rest Energy
 		for(int i = 0; i < population.size(); i++){
-			
-			if (!(population.get(i) instanceof Algae)){
-				population.get(i).energy -= Params.rest_energy_cost;
-			}
+			population.get(i).energy -= Params.rest_energy_cost;
 		}
 		
 		
@@ -628,13 +625,13 @@ public abstract class Critter {
 		int origX = population.get(c1).x_coord;
 		int origY = population.get(c1).y_coord;
 		
-		
+		/*
 		// Special Case: Algae vs Algae
 		if (population.get(c1) instanceof Algae && population.get(c2) instanceof Algae){
 			// Flip coin
 			flipCoin(c1, c2);
 			return;
-		}		
+		}	
 		
 		// Special Case: Algae vs Critter
 		if ((population.get(c1) instanceof Algae && !(population.get(c2) instanceof Algae)) ||
@@ -672,7 +669,7 @@ public abstract class Critter {
 				
 			}
 			
-		}
+		}*/
 		
 		
 		boolean willC1fight = population.get(c1).fight(population.get(c2).toString());
