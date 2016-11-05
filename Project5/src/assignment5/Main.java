@@ -46,17 +46,15 @@ public class Main extends Application{
 	static boolean mcIsDropdownLegal = false;
 	static boolean mcIsTextfieldLegal = true;
 	
-<<<<<<< HEAD
 	private static String myPackage;
 	
 	// Gets the package name.  This assumes that Critter and its subclasses are all in the same package.
 		static {
 			myPackage = Main.class.getPackage().toString().split(" ")[1];
 		}
-=======
+		
 	//private Animate animation = new Animate();
-	
->>>>>>> 10c328091fdb8fc0f81cde22ae9bf77e0f1434da
+
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -178,25 +176,46 @@ public class Main extends Application{
 			makeCritterSubmit.setDisable(true);
 			grid.add(makeCritterSubmit, 3, 0);
 			
-			Label timeStep = new Label("TimeStep Options");
+			Label timeStep = new Label("Input TimeStep");
 			grid.add(timeStep, 0, 3);
 			
 			TextField timeStepSet = new TextField();
 			
+			TextFormatter<Integer> textFormatter2 = new TextFormatter<Integer>(new IntegerStringConverter(), 1, 
+		            change -> {
+		                String newText = change.getControlNewText() ;
+		                if (validIntText.matcher(newText).matches()) {
+		                    return change ;
+		                } else return null ;
+		            });
+			
+			
+			timeStepSet.setTextFormatter(textFormatter2);
+			
+			Button time = new Button("Submit");
+			
 			timeStepSet.textProperty().addListener((observable, oldValue, newValue) -> {
-			    int num = Integer.parseInt(newValue);
+				
+				if (newValue != null && !newValue.isEmpty()){
+				
+					int num = Integer.parseInt(newValue);
+				    
+				    if (num >= 1){
+				    	time.setDisable(false);
+				    }
+				    else{
+				    	time.setDisable(true);
+				    }
+				}
+				else{
+					time.setDisable(true);
+				}
 			    
-			    if (num >= 1){
-			    	mcIsTextfieldLegal = true;
-			    }
-			    else{
-			    	mcIsTextfieldLegal = false;
-			    }
 			    
 			    
 			});
 			
-			Button time = new Button("Submit TimeStep");
+			
 			
 			time.setOnAction(new EventHandler<ActionEvent>() {
 			    @Override public void handle(ActionEvent e) {
@@ -260,6 +279,7 @@ public class Main extends Application{
 			
 			
 			
+			// Scene
 			Scene scene2 = new Scene(grid, 600, 600);
 			controlStage.setScene(scene2);
 			controlStage.setTitle("Controls");
