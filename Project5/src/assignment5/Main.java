@@ -25,6 +25,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.GridPane;
@@ -32,6 +33,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 
@@ -94,6 +98,13 @@ public class Main extends Application{
 //**************************************** MAKE CRITTER STUFF **************************************************//
 			
 			Label makeCritter = new Label("Make Critter");
+			
+
+			makeCritter.setFont(Font.font("Verdana", FontPosture.ITALIC, 15));
+			makeCritter.setTextFill(Color.BLUE);
+			
+			
+			
 			grid.add(makeCritter, 0, 0);
 			
 			/* NEED TO MAKE IT DYNAMIC */
@@ -140,7 +151,7 @@ public class Main extends Application{
 
 
 			
-			grid.add(critterDropdown, 1, 0);
+			grid.add(critterDropdown, 0, 1);
 			
 			TextField makeCritterNumber = new TextField();
 			
@@ -158,7 +169,7 @@ public class Main extends Application{
 			
 			
 			
-			grid.add(makeCritterNumber, 2, 0);
+			grid.add(makeCritterNumber, 1, 1);
 			
 			Button makeCritterSubmit = new Button("Submit");
 			
@@ -217,16 +228,24 @@ public class Main extends Application{
 			});
 			
 			makeCritterSubmit.setDisable(true);
-			grid.add(makeCritterSubmit, 3, 0);
+			grid.add(makeCritterSubmit, 2, 1);
 			
 
 
 
 //******************************************* TIME STEP STUFF **************************************************//
 			
+			//title
+			Label titleStep = new Label("TimeStep Funcitons");
+			
+			titleStep.setFont(Font.font("Verdana", FontPosture.ITALIC, 15));
+			titleStep.setTextFill(Color.BLUE);
+			
+			grid.add(titleStep, 0, 2);
+			
 			Label timeStep = new Label("Input TimeStep");
 
-			grid.add(timeStep, 0, 3);
+			grid.add(timeStep, 0, 4);
 			
 			TextField timeStepSet = new TextField();
 			
@@ -278,9 +297,9 @@ public class Main extends Application{
 			
 			
 			
-			grid.add(timeStepSet, 1, 3);
+			grid.add(timeStepSet, 1, 4);
 			
-			grid.add(time, 2, 3);
+			grid.add(time, 2, 4);
 			
 			
 			Button time_one = new Button("TimeStep + 1");
@@ -322,15 +341,69 @@ public class Main extends Application{
 				}
 			});
 			
-			grid.add(time_one, 0, 2);
-			grid.add(time_hundred, 1, 2);
-			grid.add(time_thousand, 2, 2);
+			grid.add(time_one, 0, 3);
+			grid.add(time_hundred, 1, 3);
+			grid.add(time_thousand, 2, 3);
 
 			
 //************************************************ ANIMATION STUFF **************************************************//	
 			
+			Label ani = new Label("Animation");
+			
+
+			ani.setFont(Font.font("Verdana", FontPosture.ITALIC, 15));
+			ani.setTextFill(Color.BLUE);
 			
 			
+			grid.add(ani, 0, 5);
+			
+			Slider animation = new Slider();
+			animation.setMin(0);
+			animation.setMax(100);
+			animation.setValue(40);
+			animation.setShowTickLabels(true);
+			animation.setShowTickMarks(true);
+			animation.setMajorTickUnit(50);
+			animation.setMinorTickCount(5);
+			animation.setBlockIncrement(10);
+			
+			grid.add(animation, 0, 6);
+			
+			
+			
+			
+			
+			Button aniBtn = new Button("Animation");
+			aniBtn.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					
+				//disable everything 
+				makeCritterSubmit.setDisable(true);
+				time_one.setDisable(true);
+				time_hundred.setDisable(true);
+				time_thousand.setDisable(true);
+				time.setDisable(true);
+				}
+			});
+			
+			grid.add(aniBtn, 1, 6);
+			
+			
+
+			
+//***************************EXITING OUT**************************//
+			
+			Button exit = new Button("Exit");
+			exit.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+				System.exit(0);
+				}
+				
+			});
+			
+			grid.add(exit, 0, 10);
 			
 
 //********************************************* SETTING CONTROLLER *************************************************//
