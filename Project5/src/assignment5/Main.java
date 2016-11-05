@@ -1,7 +1,11 @@
 package assignment5;
 
+import java.io.File;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.ParsePosition;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import javax.swing.event.ChangeEvent;
@@ -39,8 +43,14 @@ public class Main extends Application{
 	public static final int shapeSize = 20;
 	
 	static boolean mcIsDropdownLegal = false;
-	static boolean mcIsTextfieldLegal = false;
+	static boolean mcIsTextfieldLegal = true;
 	
+	private static String myPackage;
+	
+	// Gets the package name.  This assumes that Critter and its subclasses are all in the same package.
+		static {
+			myPackage = Main.class.getPackage().toString().split(" ")[1];
+		}
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -68,6 +78,14 @@ public class Main extends Application{
 			
 			/* NEED TO MAKE IT DYNAMIC */
 			ComboBox<String> critterDropdown = new ComboBox<String>();
+			
+			File curDir = new File("./src/assignment5");
+			File[] filesList = curDir.listFiles();
+			for(File f : filesList){
+				System.out.println(f.getName());
+			}
+			
+			
 			critterDropdown.getItems().addAll(
 	            "Algae",
 	            "Craig"
@@ -91,18 +109,7 @@ public class Main extends Application{
 			
 			makeCritterNumber.setTextFormatter(textFormatter);
 			
-			makeCritterNumber.textProperty().addListener((observable, oldValue, newValue) -> {
-			    int num = Integer.parseInt(newValue);
-			    
-			    if (num >= 1){
-			    	mcIsTextfieldLegal = true;
-			    }
-			    else{
-			    	mcIsTextfieldLegal = false;
-			    }
-			    
-			    
-			});
+			
 			
 			grid.add(makeCritterNumber, 2, 0);
 			
@@ -111,16 +118,42 @@ public class Main extends Application{
 			// Dropdown new selection enables the button
 			critterDropdown.setOnAction(new EventHandler<ActionEvent>(){
 				@Override public void handle(ActionEvent e){
-					makeCritterSubmit.setDisable(false);
+					
+					if (critterDropdown.getValue() != null && !critterDropdown.getValue().toString().isEmpty()){
+						mcIsDropdownLegal = true;
+			    	}
+					else{
+						mcIsDropdownLegal = false;
+					}
+					
+					makeCritterSubmit.setDisable(isMCDisable());
 				}
+			});
+			
+			makeCritterNumber.textProperty().addListener((observable, oldValue, newValue) -> {
+				
+				if (newValue != null && !newValue.isEmpty()){
+					int num = Integer.parseInt(newValue);
+				    
+				    if (num >= 1){
+				    	mcIsTextfieldLegal = true;
+				    }
+				    else{
+				    	mcIsTextfieldLegal = false;
+				    }
+				}
+				else{
+					mcIsTextfieldLegal = false;
+				}
+				
+			    
+			    
+			    makeCritterSubmit.setDisable(isMCDisable());
 			});
 			
 			
 			makeCritterSubmit.setOnAction(new EventHandler<ActionEvent>() {
 			    @Override public void handle(ActionEvent e) {
-			    	if (critterDropdown.getValue() != null && !critterDropdown.getValue().toString().isEmpty()){
-			    		
-			    	}
 			    	try {
 			    		
 			    		int count = Integer.parseInt(makeCritterNumber.getText());
@@ -151,6 +184,9 @@ public class Main extends Application{
 		}
 	}
 	
+	/**
+	 * Make the squares base grid
+	 */
 	public static void makeSquares(){
 		for(int i = 0; i < Params.world_height; i++){
 			for(int j = 0; j < Params.world_width; j++){
@@ -166,6 +202,9 @@ public class Main extends Application{
 		}
 	}
 	
+	/**
+	 * Add all the icons of the Critters to the grid
+	 */
 	public static void displayIcons(){
 		clearIcons();
 		for(int i = 0; i < Params.world_height; i++){
@@ -175,7 +214,9 @@ public class Main extends Application{
 		}
 	}
 	
-	
+	/**
+	 * Clear the grid of everything, then add the squares back.
+	 */
 	public static void clearIcons(){
 		p.getChildren().clear();
 		makeSquares();
@@ -197,12 +238,56 @@ public class Main extends Application{
 		launch(args);
 	}
 	
-	public static boolean canMCSubmit(){
+	/**
+	 * Choose whether to enable or disable the Make Critter submit button
+	 * @return false to enable, true to disable
+	 */
+	public static boolean isMCDisable(){
 		if (mcIsTextfieldLegal && mcIsDropdownLegal){
+			return false;
+		}
+		else{
 			return true;
 		}
-		return false;
 		
 	}
+	
+	private static Set<Class> getClassesInPackage(String packageName) {  
+	    Set<Class> classes = new HashSet<Class>();  
+	    String packageNameSlashed = "/" + packageName.replace(".", "/");
+	    // Get a File object for the package  
+	    URL directoryURL = Thread.currentThread().getContextClassLoader().getResource(packageNameSlashed);  
+	    if (directoryURL == null) {  
+	    	System.out.println("Could not retrieve URL source: " + packageNameSlashed);
+	        return classes;  
+	    }  
+	  
+	    String directoryString = directoryURL.getFile();  
+	    if (directoryString == null) {  
+	    	System.out.println("Cold not find directory for URL resource: " + packageNameSlashed);
+	        return classes;  
+	    }  
+	  
+	    File directory = new File(directoryString);  
+	    if (directory.exists()) {  
+	        // Get the list of the files contained in the package  
+	        String[] files = directory.list();  
+	        for (String fileName : files) {  
+	            // We are only interested in .class files  
+	            if (fileName.endsWith(".class")) {  
+	                // Remove the .class extension  
+	                fileName = fileName.substring(0, fileName.length() - 6);  
+	                try {  
+	                    classes.add(Class.forName(packageName + "." + fileName));  
+	                } catch (ClassNotFoundException e) {  
+	                	System.out.println("not a valid class?");
+	                }  
+	            }  
+	        }  
+	    } else {  
+	       
+	    }  
+	    return classes;  
+	}  
 
 }
