@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import javafx.animation.Animation;
 import javafx.application.Application;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -40,6 +41,8 @@ public class Main extends Application{
 	
 	static boolean mcIsDropdownLegal = false;
 	static boolean mcIsTextfieldLegal = false;
+	
+	//private Animate animation = new Animate();
 	
 	
 	@Override
@@ -138,6 +141,88 @@ public class Main extends Application{
 			
 			makeCritterSubmit.setDisable(true);
 			grid.add(makeCritterSubmit, 3, 0);
+			
+			Label timeStep = new Label("TimeStep Options");
+			grid.add(timeStep, 0, 3);
+			
+			TextField timeStepSet = new TextField();
+			
+			timeStepSet.textProperty().addListener((observable, oldValue, newValue) -> {
+			    int num = Integer.parseInt(newValue);
+			    
+			    if (num >= 1){
+			    	mcIsTextfieldLegal = true;
+			    }
+			    else{
+			    	mcIsTextfieldLegal = false;
+			    }
+			    
+			    
+			});
+			
+			Button time = new Button("Submit TimeStep");
+			
+			time.setOnAction(new EventHandler<ActionEvent>() {
+			    @Override public void handle(ActionEvent e) {
+			    	int number = Integer.parseInt(timeStepSet.getText());
+			    	for (int i = 0; i < number; i ++) {
+						Critter.worldTimeStep();
+					}
+					Critter.displayWorld();
+				}
+			});
+			
+			
+			
+			grid.add(timeStepSet, 1, 3);
+			
+			grid.add(time, 2, 3);
+			
+			
+			Button time_one = new Button("TimeStep + 1");
+			
+			Button time_hundred = new Button("TimeStep + 100");
+			
+			Button time_thousand = new Button("TimeStep + 1000");
+			
+			time_one.setOnAction(new EventHandler<ActionEvent>() {
+				@Override 
+				public void handle(ActionEvent event) {
+					Critter.worldTimeStep();
+					Critter.displayWorld();
+				}
+			});
+			
+			
+			
+			
+			time_hundred.setOnAction(new EventHandler<ActionEvent>() {
+				@Override 
+				public void handle(ActionEvent event) {
+					for (int i = 0; i < 100; i ++) {
+						Critter.worldTimeStep();
+					}
+					Critter.displayWorld();
+				}
+			});
+			
+			
+			
+			time_thousand.setOnAction(new EventHandler<ActionEvent>() {
+				@Override 
+				public void handle(ActionEvent event) {
+					for (int i = 0; i < 1000; i ++) {
+						Critter.worldTimeStep();
+					}
+					Critter.displayWorld();
+				}
+			});
+			
+			grid.add(time_one, 0, 2);
+			grid.add(time_hundred, 1, 2);
+			grid.add(time_thousand, 2, 2);
+			
+			
 			
 			Scene scene2 = new Scene(grid, 600, 600);
 			controlStage.setScene(scene2);
