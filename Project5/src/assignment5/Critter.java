@@ -500,6 +500,7 @@ public abstract class Critter {
 	}
 	
 	public static void displayWorld() {
+		// Main.clearIcons();
 		
 		
 		for(int i = 0; i < Params.world_height; i++){
@@ -617,7 +618,7 @@ public abstract class Critter {
 			
 			Main.shapes[x][y] = s;
 			
-			// Main.displayIcons();
+			Main.displayIcons();
 		}
 		
 	}
