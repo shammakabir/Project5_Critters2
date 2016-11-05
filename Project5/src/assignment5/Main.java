@@ -5,11 +5,8 @@ import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.ParsePosition;
 import java.util.ArrayList;
-<<<<<<< HEAD
 import java.util.Enumeration;
 import java.util.TimerTask;
-=======
->>>>>>> 3d7d46b1dba35b12471e7eb630827075a0cd84d9
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
