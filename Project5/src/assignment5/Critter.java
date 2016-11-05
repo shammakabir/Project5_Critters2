@@ -15,6 +15,12 @@ package assignment5;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
+
 import java.lang.*;
 
 /* see the PDF for descriptions of the methods and fields in this class
@@ -496,43 +502,124 @@ public abstract class Critter {
 	public static void displayWorld() {
 		
 		
-		char world[][] = new char[Params.world_width][Params.world_height];
-		
-		for(int i = 0; i < Params.world_width; i++){
-			for (int j = 0; j < Params.world_height; j++){
-				world[i][j] = ' ';
+		for(int i = 0; i < Params.world_height; i++){
+			for(int j = 0; j < Params.world_width; j++){
+	            Main.shapes[i][j] = new Circle();
 			}
 		}
 		
 		for(int i = 0; i < population.size(); i++){
-			world[population.get(i).x_coord][population.get(i).y_coord] = population.get(i).toString().charAt(0);
-		}
-		
-		
-		System.out.print("+");
-		for(int i = 0; i < Params.world_width; i++){
-			System.out.print("-");
-		}
-		System.out.print("+");
-		System.out.println("");
-		
-		// Print middle
-		for (int i = 0; i < Params.world_height; i++){
-			System.out.print("|");
-			for(int j = 0; j < Params.world_width; j++){
-				System.out.print(world[j][i]);
+			
+			Critter c = population.get(i);
+			
+			int x = c.x_coord;
+			int y = c.y_coord;
+			
+			Shape s = null;
+			
+			switch(c.viewShape()){
+			case CIRCLE:
+				s = new Circle(x * Main.cellSize + Main.cellSize/2, y * Main.cellSize + Main.cellSize/2, 
+							   Main.shapeSize/2);
+				s.setFill(c.viewFillColor());
+				s.setStroke(c.viewOutlineColor());
+				break;
+			case SQUARE:
+				s = new Rectangle(x * Main.cellSize + (Main.cellSize - Main.shapeSize)/2, 
+								  y * Main.cellSize + (Main.cellSize - Main.shapeSize)/2, 
+								  Main.shapeSize, Main.shapeSize);
+				s.setFill(c.viewFillColor());
+				s.setStroke(c.viewOutlineColor());
+				break;
+			case TRIANGLE:
+				Polygon triangle = new Polygon();
+				
+				Double[] tpts = {0.0, -0.5 * Main.shapeSize,
+					    		 0.5 * Main.shapeSize, 0.4 * Main.shapeSize,
+					    		 -0.5 * Main.shapeSize, 0.4 * Main.shapeSize };
+				
+				for(int j = 0; j < tpts.length; j++){
+					tpts[j] += Main.cellSize / 2;
+				}
+				for(int j = 0; j < tpts.length; j+=2){
+					tpts[j] += x * Main.cellSize;
+				}
+				for(int j = 1; j < tpts.length; j+=2){
+					tpts[j] += y * Main.cellSize;
+				}
+				
+				triangle.getPoints().addAll(tpts);
+				
+				s = triangle;
+				s.setFill(c.viewFillColor());
+				s.setStroke(c.viewOutlineColor());
+				break;
+			case DIAMOND:	
+				Polygon diamond = new Polygon();
+				
+				Double[] dpts = {0.0, (double) Main.shapeSize / 2 - 1, 
+								 (double) Main.shapeSize / 3, 0.0,
+								 0.0, (double) -Main.shapeSize / 2 + 1,
+								 (double) -Main.shapeSize / 3, 0.0};
+				
+				for(int j = 0; j < dpts.length; j++){
+					dpts[j] += Main.cellSize / 2;
+				}
+				for(int j = 0; j < dpts.length; j+=2){
+					dpts[j] += x * Main.cellSize;
+				}
+				for(int j = 1; j < dpts.length; j+=2){
+					dpts[j] += y * Main.cellSize;
+				}
+				
+				
+				diamond.getPoints().addAll(dpts);
+				
+				s = diamond;
+				
+				s.setFill(c.viewFillColor());
+				s.setStroke(c.viewOutlineColor());
+				break;
+			case STAR:
+				Polygon star = new Polygon();
+				
+				Double[] spts = {0.0, -1.0,
+								 0.25, -0.3,
+								 0.9, -0.3,
+								 0.35, 0.125,
+								 0.65, 0.75,
+								 0.0, 0.4,
+								 -0.65, 0.75,
+								 -0.35, 0.125,
+								 -0.9, -0.3,
+								 -0.25, -0.3};
+				
+				for(int j = 0; j < spts.length; j++){
+					spts[j] *= Main.shapeSize / 2;
+					spts[j] += Main.cellSize / 2;
+				}
+				for(int j = 0; j < spts.length; j+=2){
+					spts[j] += x * Main.cellSize;
+				}
+				for(int j = 1; j < spts.length; j+=2){
+					spts[j] += y * Main.cellSize;
+				}
+				
+				star.getPoints().addAll(spts);
+				
+				s = star;
+				s.setFill(c.viewFillColor());
+				s.setStroke(c.viewOutlineColor());
+				break;
+			default:
+				break;
 			}
-			System.out.print("|");
-			System.out.println("");
+			
+			Main.shapes[x][y] = s;
+			
+			// Main.displayIcons();
 		}
 		
-		
-		System.out.print("+");
-		for(int i = 0; i < Params.world_width; i++){
-			System.out.print("-");
-		}
-		System.out.print("+");
-		System.out.println("");
 	}
 	
 	
