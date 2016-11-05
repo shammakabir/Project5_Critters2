@@ -4,6 +4,7 @@ import java.io.File;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.ParsePosition;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -83,16 +84,43 @@ public class Main extends Application{
 			/* NEED TO MAKE IT DYNAMIC */
 			ComboBox<String> critterDropdown = new ComboBox<String>();
 			
+			ArrayList<String> classNames = new ArrayList<String>();
+			ArrayList<String> critterNames = new ArrayList<String>();
+			
+			
 			File curDir = new File("./src/assignment5");
 			File[] filesList = curDir.listFiles();
 			for(File f : filesList){
-				System.out.println(f.getName());
+				
+				if (f.getName().endsWith(".java")) {  					
+	                // Remove the .class extension  
+	                classNames.add(f.getName().substring(0, f.getName().length() - 5));
+				}
+			}
+			
+			
+			for(int i = 0; i < classNames.size(); i++){
+				Class<?> myClass = null;
+				
+				try {
+					myClass = Class.forName(myPackage + "." + classNames.get(i));
+					
+					if (Critter.class.isAssignableFrom(myClass)){
+						
+						if (!classNames.get(i).equals("Critter")){
+							critterNames.add(classNames.get(i));
+						}
+						
+						
+					}					
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+				}
 			}
 			
 			
 			critterDropdown.getItems().addAll(
-	            "Algae",
-	            "Craig"
+	            critterNames
 	        );
 
 
@@ -287,7 +315,6 @@ public class Main extends Application{
 			
 			
 			
-			
 		} catch(Exception e) {	
 		}
 	}
@@ -359,43 +386,5 @@ public class Main extends Application{
 		}
 		
 	}
-	
-	private static Set<Class> getClassesInPackage(String packageName) {  
-	    Set<Class> classes = new HashSet<Class>();  
-	    String packageNameSlashed = "/" + packageName.replace(".", "/");
-	    // Get a File object for the package  
-	    URL directoryURL = Thread.currentThread().getContextClassLoader().getResource(packageNameSlashed);  
-	    if (directoryURL == null) {  
-	    	System.out.println("Could not retrieve URL source: " + packageNameSlashed);
-	        return classes;  
-	    }  
-	  
-	    String directoryString = directoryURL.getFile();  
-	    if (directoryString == null) {  
-	    	System.out.println("Cold not find directory for URL resource: " + packageNameSlashed);
-	        return classes;  
-	    }  
-	  
-	    File directory = new File(directoryString);  
-	    if (directory.exists()) {  
-	        // Get the list of the files contained in the package  
-	        String[] files = directory.list();  
-	        for (String fileName : files) {  
-	            // We are only interested in .class files  
-	            if (fileName.endsWith(".class")) {  
-	                // Remove the .class extension  
-	                fileName = fileName.substring(0, fileName.length() - 6);  
-	                try {  
-	                    classes.add(Class.forName(packageName + "." + fileName));  
-	                } catch (ClassNotFoundException e) {  
-	                	System.out.println("not a valid class?");
-	                }  
-	            }  
-	        }  
-	    } else {  
-	       
-	    }  
-	    return classes;  
-	}  
 
 }
