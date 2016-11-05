@@ -787,7 +787,8 @@ public abstract class Critter {
 			
 			// If their coordinates are the same, we know that there must be a fight
 			if (population.get(c1).x_coord == population.get(c2).x_coord &&
-				population.get(c1).y_coord == population.get(c2).y_coord){
+				population.get(c1).y_coord == population.get(c2).y_coord &&
+				population.get(c1).energy > 0 && population.get(c2).energy > 0){
 				
 				int l1 = getRandomInt(population.get(c1).energy);
 				int l2 = getRandomInt(population.get(c2).energy);
