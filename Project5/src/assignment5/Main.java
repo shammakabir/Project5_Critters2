@@ -2,13 +2,18 @@ package assignment5;
 
 import java.text.DecimalFormat;
 import java.text.ParsePosition;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.TimerTask;
 import java.util.regex.Pattern;
 
+import javax.print.DocFlavor.URL;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import javafx.animation.Animation;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -41,13 +46,15 @@ public class Main extends Application{
 	
 	static boolean mcIsDropdownLegal = false;
 	static boolean mcIsTextfieldLegal = false;
-	
-	//private Animate animation = new Animate();
+	private static int FrameSteps = 1;
+	private Animate animation = new Animate();
 	
 	
 	@Override
 	public void start(Stage primaryStage) {
-		try {						
+		try {
+			
+//**************************************** CREATE BOTH STAGES ********************************************//
 			sp.setPrefSize(800, 800);
 			sp.setContent(p);
 			
@@ -59,12 +66,16 @@ public class Main extends Application{
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Grid");
 			primaryStage.show();
+
 			
-			// Control Stage
+			//Control Stage
 			Stage controlStage = new Stage();
 			
 			grid.setHgap(10);
 			grid.setVgap(10);
+			
+			
+//**************************************** MAKE CRITTER STUFF **************************************************//
 			
 			Label makeCritter = new Label("Make Critter");
 			grid.add(makeCritter, 0, 0);
@@ -141,6 +152,10 @@ public class Main extends Application{
 			
 			makeCritterSubmit.setDisable(true);
 			grid.add(makeCritterSubmit, 3, 0);
+			
+
+
+//******************************************* TIME STEP STUFF **************************************************//
 			
 			Label timeStep = new Label("TimeStep Options");
 			grid.add(timeStep, 0, 3);
@@ -221,9 +236,16 @@ public class Main extends Application{
 			grid.add(time_one, 0, 2);
 			grid.add(time_hundred, 1, 2);
 			grid.add(time_thousand, 2, 2);
+
+			
+//************************************************ ANIMATION STUFF **************************************************//	
 			
 			
 			
+			
+			
+			
+//********************************************* SETTING CONTROLLER *************************************************//
 			Scene scene2 = new Scene(grid, 600, 600);
 			controlStage.setScene(scene2);
 			controlStage.setTitle("Controls");
@@ -264,6 +286,20 @@ public class Main extends Application{
 	public static void clearIcons(){
 		p.getChildren().clear();
 		makeSquares();
+	}
+	
+	
+	public class Animate extends TimerTask {
+		@Override
+		public void run() {
+			Platform.runLater(() -> {
+				for(int i = 0; FrameSteps; i++) {
+					Critter.worldTimeStep();
+				}
+				Critter.displayWorld();
+			});
+		}
+		
 	}
 	
 	public static void main(String[] args) {
