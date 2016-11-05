@@ -3,10 +3,7 @@ package assignment5;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
@@ -48,6 +45,12 @@ public class Main extends Application{
 			primaryStage.setScene(scene);
 			
 			primaryStage.show();
+			
+			// Control Stage
+			Stage controlStage = new Stage();
+			// Scene scene2 = new Scene();
+			controlStage.show();
+			
 			displayIcons();
 			
 		} catch(Exception e) {

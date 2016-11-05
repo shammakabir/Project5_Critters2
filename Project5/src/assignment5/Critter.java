@@ -558,9 +558,9 @@ public abstract class Critter {
 				Polygon diamond = new Polygon();
 				
 				Double[] dpts = {0.0, (double) Main.shapeSize / 2 - 1, 
-								 (double) Main.shapeSize / 3, 0.0,
+								 (double) Main.shapeSize / 2.5, 0.0,
 								 0.0, (double) -Main.shapeSize / 2 + 1,
-								 (double) -Main.shapeSize / 3, 0.0};
+								 (double) -Main.shapeSize / 2.5, 0.0};
 				
 				for(int j = 0; j < dpts.length; j++){
 					dpts[j] += Main.cellSize / 2;
