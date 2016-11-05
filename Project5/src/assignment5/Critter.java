@@ -472,7 +472,6 @@ public abstract class Critter {
 			}
 		} catch (InvalidCritterException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		
 		
@@ -618,8 +617,10 @@ public abstract class Critter {
 			
 			Main.shapes[x][y] = s;
 			
-			Main.displayIcons();
+			
 		}
+		
+		Main.displayIcons();
 		
 	}
 	
