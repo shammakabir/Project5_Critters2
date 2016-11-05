@@ -360,35 +360,35 @@ public class Main extends Application{
 			
 		
 			
-			Slider animation = new Slider();
-			animation.setMin(0);
-			animation.setMax(100);
-			animation.setValue(40);
-			animation.setShowTickLabels(true);
-			animation.setShowTickMarks(true);
-			animation.setMajorTickUnit(50);
-			animation.setMinorTickCount(5);
-			animation.setBlockIncrement(10);
-			animation.valueProperty().addListener((observable, oldValue, newValue) ->
-			animation.setValue(Math.round(animation.getValue())));
+			Slider aniSlide = new Slider();
+			aniSlide.setMin(0);
+			aniSlide.setMax(100);
+			aniSlide.setValue(40);
+			aniSlide.setShowTickLabels(true);
+			aniSlide.setShowTickMarks(true);
+			aniSlide.setMajorTickUnit(50);
+			aniSlide.setMinorTickCount(5);
+			aniSlide.setBlockIncrement(10);
+			aniSlide.valueProperty().addListener((observable, oldValue, newValue) ->
+			aniSlide.setValue(Math.round(aniSlide.getValue())));
 			
 			Label sliderNums = new Label("Speed of Animation: ");
 			
 			
 			
-			animation.valueProperty().addListener((observable, oldValue, newValue) -> {
-				sliderNums.setText("Speed of Animation: " + animation.getValue());
-				FrameSteps = (int)animation.getValue();
+			aniSlide.valueProperty().addListener((observable, oldValue, newValue) -> {
+				sliderNums.setText("Speed of Animation: " + aniSlide.getValue());
+				FrameSteps = (int)aniSlide.getValue();
 			});
 				
 			grid.add(sliderNums, 0, 6);
-			grid.add(animation, 1, 6);
+			grid.add(aniSlide, 1, 6);
 			
 			
 			
 			
 			
-			Button aniBtn = new Button("Input Animation");
+			Button aniBtn = new Button("Start Animation");
 			aniBtn.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
