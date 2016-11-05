@@ -358,6 +358,22 @@ public class Main extends Application{
 			grid.add(ani, 0, 5);
 			
 			
+			Button aniBtn = new Button("Start Animation");
+			aniBtn.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					
+				//disable everything 
+				makeCritterSubmit.setDisable(true);
+				time_one.setDisable(true);
+				time_hundred.setDisable(true);
+				time_thousand.setDisable(true);
+				time.setDisable(true);
+				}
+			});
+			
+			aniBtn.setDisable(true);
+			
 		
 			
 			Slider aniSlide = new Slider();
@@ -379,29 +395,11 @@ public class Main extends Application{
 			aniSlide.valueProperty().addListener((observable, oldValue, newValue) -> {
 				sliderNums.setText("Speed of Animation: " + aniSlide.getValue());
 				FrameSteps = (int)aniSlide.getValue();
+				aniBtn.setDisable(false);
 			});
 				
 			grid.add(sliderNums, 0, 6);
 			grid.add(aniSlide, 1, 6);
-			
-			
-			
-			
-			
-			Button aniBtn = new Button("Start Animation");
-			aniBtn.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					
-				//disable everything 
-				makeCritterSubmit.setDisable(true);
-				time_one.setDisable(true);
-				time_hundred.setDisable(true);
-				time_thousand.setDisable(true);
-				time.setDisable(true);
-				}
-			});
-			
 			grid.add(aniBtn, 2, 6);
 			
 			
