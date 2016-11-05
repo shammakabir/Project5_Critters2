@@ -357,6 +357,9 @@ public class Main extends Application{
 			
 			grid.add(ani, 0, 5);
 			
+			
+		
+			
 			Slider animation = new Slider();
 			animation.setMin(0);
 			animation.setMax(100);
@@ -366,14 +369,26 @@ public class Main extends Application{
 			animation.setMajorTickUnit(50);
 			animation.setMinorTickCount(5);
 			animation.setBlockIncrement(10);
+			animation.valueProperty().addListener((observable, oldValue, newValue) ->
+			animation.setValue(Math.round(animation.getValue())));
 			
-			grid.add(animation, 0, 6);
+			Label sliderNums = new Label("Speed of Animation: ");
+			
+			
+			
+			animation.valueProperty().addListener((observable, oldValue, newValue) -> {
+				sliderNums.setText("Speed of Animation: " + animation.getValue());
+				FrameSteps = (int)animation.getValue();
+			});
+				
+			grid.add(sliderNums, 0, 6);
+			grid.add(animation, 1, 6);
 			
 			
 			
 			
 			
-			Button aniBtn = new Button("Animation");
+			Button aniBtn = new Button("Input Animation");
 			aniBtn.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
@@ -387,7 +402,7 @@ public class Main extends Application{
 				}
 			});
 			
-			grid.add(aniBtn, 1, 6);
+			grid.add(aniBtn, 2, 6);
 			
 			
 
