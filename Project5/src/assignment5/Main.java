@@ -53,7 +53,7 @@ public class Main extends Application{
 	
 	static boolean mcIsDropdownLegal = false;
 
-	static boolean mcIsTextfieldLegal = false;
+	static boolean mcIsTextfieldLegal = true;
 	private static int FrameSteps = 1;
 	private Animate animation = new Animate();
 
