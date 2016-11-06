@@ -377,7 +377,7 @@ public class Main extends Application{
 		
 			
 			Slider aniSlide = new Slider();
-			aniSlide.setMin(0);
+			aniSlide.setMin(1);
 			aniSlide.setMax(100);
 			aniSlide.setValue(40);
 			aniSlide.setShowTickLabels(true);
