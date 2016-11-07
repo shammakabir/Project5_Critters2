@@ -24,6 +24,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -448,7 +449,7 @@ public class Main extends Application{
 			FrameSteps = (int)aniSlide.getValue();
 			
 			Timeline animation = new Timeline(new KeyFrame(
-			        Duration.millis(2000),
+			        Duration.millis(500),
 			        new EventHandler<ActionEvent>() {
 			        @Override	
 			        	public void handle(ActionEvent event) {
@@ -513,6 +514,32 @@ public class Main extends Application{
 			grid.add(aniBtn, 2, 6);	
 			grid.add(aniBtnStop, 3, 6);
 			
+//***************************Run Stats**************************//
+			Label rStats = new Label("Run Stats");
+			
+
+			rStats.setFont(Font.font("Verdana", FontPosture.ITALIC, 15));
+			rStats.setTextFill(Color.BLUE);
+			
+			grid.add(rStats, 0, 9);
+			
+			for(int i = 0; i < critterNames.size(); i++){
+				Button b = new Button(critterNames.get(i));
+				
+				b.setOnAction(new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent event) {
+						System.out.println(b.getText());
+					
+					}
+				});
+				
+				grid.add(b, 1, 10 + i);
+				
+				CheckBox cb = new CheckBox(critterNames.get(i));
+				grid.add(cb, 0, 10 + i);
+			}
+			
 			
 			
 //***************************EXITING OUT**************************//
@@ -526,7 +553,7 @@ public class Main extends Application{
 				
 			});
 			
-			grid.add(exit, 0, 10);
+			grid.add(exit, 3, 1);
 			
 
 //********************************************* SETTING CONTROLLER *************************************************//
