@@ -67,6 +67,18 @@ public abstract class Critter {
 		String crit = new String();
 		int pos_x = 0;
 		int pos_y = 0;
+		int numSteps = 0;
+		int negNumSteps = 0;
+		
+		if (steps == false) {
+			numSteps = 1;
+			negNumSteps = -1;
+		}
+		else if (steps == true) {
+			numSteps = 2;
+			negNumSteps = -2;
+		}
+		
 	    for(StackTraceElement element : traces) {
 	    	if(method) {
 	    		method_called = element.getMethodName();
@@ -77,131 +89,69 @@ public abstract class Critter {
 	    }
 	    
 	    if (method_called.equals("fight")) {
-	    	if (steps == false) {
-	    		if (direction == 0) { // direction is to the right (x + 1)
-	    			pos_x = move_x(1);
-	    		}
-	    		else if (direction == 1) { //right one & up one (x + 1 and y + 1)
-	    			pos_x = move_x(1);
-	    			pos_y = move_y(1);			
-	    		}
-	    		else if (direction == 2) { //up (y + 1)
-	    			pos_y = move_y(1);
-	    		}
-	    		else if (direction == 3) { //left one & up one (x - 1, y + 1)
-	    			pos_x = move_x(-1);
-	    			pos_y = move_y(1);
-	    		}
-	    		else if (direction == 4) { //just left (x - 1)
-	    			pos_x = move_x(-1);
-	    		}
-	    		else if (direction == 5) { //left one & down one (x - 1, y - 1)
-	    			pos_x = move_x(-1);
-	    			pos_y = move_y(-1);
-	    		}
-	    		else if (direction == 6) { //down (y-1)
-	    			pos_y = move_y(-1);
-	    		}
-	    		else if (direction == 7) { //down one & right one (x + 1, y - 1)
-	    			pos_x = move_x(1);
-	    			pos_y = move_y(-1);
-			}
-	    }
 	    	
-	    	else if (steps == true) {
-	    		if (direction == 0) { // direction is to the right (x + 1)
-	    			pos_x = move_x(2);
-	    		}
-	    		else if (direction == 1) { //right one & up one (x + 1 and y + 1)
-	    			pos_x = move_x(2);
-	    			pos_y = move_y(2);			
-	    		}
-	    		else if (direction == 2) { //up (y + 1)
-	    			pos_y = move_y(2);
-	    		}
-	    		else if (direction == 3) { //left one & up one (x - 1, y + 1)
-	    			pos_x = move_x(-2);
-	    			pos_y = move_y(2);
-	    		}
-	    		else if (direction == 4) { //just left (x - 1)
-	    			pos_x = move_x(-2);
-	    		}
-	    		else if (direction == 5) { //left one & down one (x - 1, y - 1)
-	    			pos_x = move_x(-2);
-	    			pos_y = move_y(-2);
-	    		}
-	    		else if (direction == 6) { //down (y-1)
-	    			pos_y = move_y(-2);
-	    		}
-	    		else if (direction == 7) { //down one & right one (x + 1, y - 1)
-	    			pos_x = move_x(2);
-	    			pos_y = move_y(-2);
-			}
-	    }
+	    	if (direction == 0) { // direction is to the right (x + 1)
+    			pos_x = move_x(numSteps);
+    		}
+    		else if (direction == 1) { //right one & up one (x + 1 and y + 1)
+    			pos_x = move_x(numSteps);
+    			pos_y = move_y(numSteps);			
+    		}
+    		else if (direction == 2) { //up (y + 1)
+    			pos_y = move_y(numSteps);
+    		}
+    		else if (direction == 3) { //left one & up one (x - 1, y + 1)
+    			pos_x = move_x(negNumSteps);
+    			pos_y = move_y(numSteps);
+    		}
+    		else if (direction == 4) { //just left (x - 1)
+    			pos_x = move_x(negNumSteps);
+    		}
+    		else if (direction == 5) { //left one & down one (x - 1, y - 1)
+    			pos_x = move_x(negNumSteps);
+    			pos_y = move_y(negNumSteps);
+    		}
+    		else if (direction == 6) { //down (y-1)
+    			pos_y = move_y(negNumSteps);
+    		}
+    		else if (direction == 7) { //down one & right one (x + 1, y - 1)
+    			pos_x = move_x(numSteps);
+    			pos_y = move_y(negNumSteps);
+    		}
+	    	
+	    
 	    }
 	    
 	    else {
-	    	if (steps == false) {
-	    		if (direction == 0) { // direction is to the right (x + 1)
-	    			pos_x = move_prev_x(1);
-	    		}
-	    		else if (direction == 1) { //right one & up one (x + 1 and y + 1)
-	    			pos_x = move_prev_x(1);
-	    			pos_y = move_prev_y(1);			
-	    		}
-	    		else if (direction == 2) { //up (y + 1)
-	    			pos_y = move_prev_y(1);
-	    		}
-	    		else if (direction == 3) { //left one & up one (x - 1, y + 1)
-	    			pos_x = move_prev_x(-1);
-	    			pos_y = move_prev_y(1);
-	    		}
-	    		else if (direction == 4) { //just left (x - 1)
-	    			pos_x = move_prev_x(-1);
-	    		}
-	    		else if (direction == 5) { //left one & down one (x - 1, y - 1)
-	    			pos_x = move_prev_x(-1);
-	    			pos_y = move_prev_y(-1);
-	    		}
-	    		else if (direction == 6) { //down (y-1)
-	    			pos_y = move_prev_y(-1);
-	    		}
-	    		else if (direction == 7) { //down one & right one (x + 1, y - 1)
-	    			pos_x = move_prev_x(1);
-	    			pos_y = move_prev_y(-1);
-	    		}
-	    	}
 	    	
-	    	else if (steps == true) {
-	    		if (direction == 0) { // direction is to the right (x + 1)
-	    			pos_x = move_prev_x(2);
-	    		}
-	    		else if (direction == 1) { //right one & up one (x + 1 and y + 1)
-	    			pos_x = move_prev_x(2);
-	    			pos_y = move_prev_y(2);			
-	    		}
-	    		else if (direction == 2) { //up (y + 1)
-	    			pos_y = move_prev_y(2);
-	    		}
-	    		else if (direction == 3) { //left one & up one (x - 1, y + 1)
-	    			pos_x = move_prev_x(-2);
-	    			pos_y = move_prev_y(2);
-	    		}
-	    		else if (direction == 4) { //just left (x - 1)
-	    			pos_x = move_prev_x(-2);
-	    		}
-	    		else if (direction == 5) { //left one & down one (x - 1, y - 1)
-	    			pos_x = move_prev_x(-2);
-	    			pos_y = move_prev_y(-2);
-	    		}
-	    		else if (direction == 6) { //down (y-1)
-	    			pos_y = move_prev_y(-2);
-	    		}
-	    		else if (direction == 7) { //down one & right one (x + 1, y - 1)
-	    			pos_x = move_prev_x(2);
-	    			pos_y = move_prev_y(-2);
-	    		}
-	    	}
+	    	if (direction == 0) { // direction is to the right (x + 1)
+    			pos_x = move_prev_x(numSteps);
+    		}
+    		else if (direction == 1) { //right one & up one (x + 1 and y + 1)
+    			pos_x = move_prev_x(numSteps);
+    			pos_y = move_prev_y(numSteps);			
+    		}
+    		else if (direction == 2) { //up (y + 1)
+    			pos_y = move_prev_y(numSteps);
+    		}
+    		else if (direction == 3) { //left one & up one (x - 1, y + 1)
+    			pos_x = move_prev_x(negNumSteps);
+    			pos_y = move_prev_y(numSteps);
+    		}
+    		else if (direction == 4) { //just left (x - 1)
+    			pos_x = move_prev_x(negNumSteps);
+    		}
+    		else if (direction == 5) { //left one & down one (x - 1, y - 1)
+    			pos_x = move_prev_x(negNumSteps);
+    			pos_y = move_prev_y(negNumSteps);
+    		}
+    		else if (direction == 6) { //down (y-1)
+    			pos_y = move_prev_y(negNumSteps);
+    		}
+    		else if (direction == 7) { //down one & right one (x + 1, y - 1)
+    			pos_x = move_prev_x(numSteps);
+    			pos_y = move_prev_y(negNumSteps);
+    		}
 	    }
 	    
 	    if (method_called.equals("fight")) {
