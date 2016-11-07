@@ -397,6 +397,12 @@ public class Main extends Application{
 				FrameSteps = (int)aniSlide.getValue();
 				aniBtn.setDisable(false);
 			});
+			
+			aniBtn.setOnAction(new EventHandler<ActionEvent>() {
+				public void handle(ActionEvent event) {
+					animation.run();
+				}
+			});
 				
 			grid.add(sliderNums, 0, 6);
 			grid.add(aniSlide, 1, 6);
