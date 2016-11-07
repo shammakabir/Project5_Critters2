@@ -56,6 +56,9 @@ public class Main extends Application{
 	static boolean mcIsTextfieldLegal = true;
 	private static int FrameSteps = 1;
 	private Animate animation = new Animate();
+	
+	
+	public static String newSeed = "none";
 
 	//static boolean mcIsTextfieldLegal = true;
 	
@@ -409,7 +412,70 @@ public class Main extends Application{
 			grid.add(aniBtn, 2, 6);
 			
 			
+//***************************SETTING SEED**************************//
+			
+			Label seed = new Label("Seed");
+			
 
+			seed.setFont(Font.font("Verdana", FontPosture.ITALIC, 15));
+			seed.setTextFill(Color.BLUE);
+			
+			
+			grid.add(seed, 0, 7);
+			
+			
+			Label setSeed = new Label("Set Seed: ");
+			grid.add(setSeed, 0, 8);
+			
+			TextField seedInput = new TextField();
+			
+			Pattern validLongText = Pattern.compile("-?\\d*");
+			
+			TextFormatter<Integer> textFormatter3 = new TextFormatter<Integer>(new IntegerStringConverter(), 1, 
+		            change -> {
+		                String newText = change.getControlNewText() ;
+		                if (validLongText.matcher(newText).matches()) {
+		                    return change ;
+		                } else return null ;
+		            });
+			
+			seedInput.setTextFormatter(textFormatter3);
+			
+			
+			
+			
+			grid.add(seedInput, 1, 8);
+			
+			Label currSeed = new Label("Current Seed: " + newSeed);
+			
+			grid.add(currSeed, 3, 8);
+			
+			Button seedSubmit = new Button("Submit");
+			
+			seedSubmit.setOnAction(new EventHandler<ActionEvent>() {
+				@Override 
+				public void handle(ActionEvent event) {
+					long seed = Integer.parseInt(seedInput.getText());
+					
+					Critter.setSeed(seed);
+					newSeed = seedInput.getText();
+					currSeed.setText("Current Seed: " + newSeed);
+				}
+			});
+			
+			
+			seedInput.textProperty().addListener((observable, oldValue, newValue) -> {
+				
+				if (newValue != null && !newValue.isEmpty()){
+					seedSubmit.setDisable(false);
+				}
+				else{
+					seedSubmit.setDisable(true);
+				}
+			});
+			
+			
+			grid.add(seedSubmit, 2, 8);
 			
 //***************************EXITING OUT**************************//
 			
@@ -417,7 +483,7 @@ public class Main extends Application{
 			exit.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-				System.exit(0);
+					System.exit(0);
 				}
 				
 			});
@@ -428,7 +494,7 @@ public class Main extends Application{
 //********************************************* SETTING CONTROLLER *************************************************//
 
 
-			Scene scene2 = new Scene(grid, 600, 600);
+			Scene scene2 = new Scene(grid, 700, 600);
 			controlStage.setScene(scene2);
 			controlStage.setTitle("Controls");
 			controlStage.show();
