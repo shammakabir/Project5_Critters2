@@ -56,9 +56,185 @@ public abstract class Critter {
 	public javafx.scene.paint.Color viewOutlineColor() { return viewColor(); }
 	public javafx.scene.paint.Color viewFillColor() { return viewColor(); }
 	
+	
 	public abstract CritterShape viewShape(); 
 	
-	protected String look(int direction, boolean steps) {return "";}
+	protected String look(int direction, boolean steps) {
+		StackTraceElement[] traces = Thread.currentThread().getStackTrace();
+		boolean method = false;
+		String method_called = new String();
+		boolean occupied = false;
+		String crit = new String();
+		int pos_x = 0;
+		int pos_y = 0;
+	    for(StackTraceElement element : traces) {
+	    	if(method) {
+	    		method_called = element.getMethodName();
+	    	}
+	    	if (element.getMethodName().equals("look")) {
+	    		method = true;
+	    	}
+	    }
+	    
+	    if (method_called.equals("fight")) {
+	    	if (steps == false) {
+	    		if (direction == 0) { // direction is to the right (x + 1)
+	    			pos_x = move_x(1);
+	    		}
+	    		else if (direction == 1) { //right one & up one (x + 1 and y + 1)
+	    			pos_x = move_x(1);
+	    			pos_y = move_y(1);			
+	    		}
+	    		else if (direction == 2) { //up (y + 1)
+	    			pos_y = move_y(1);
+	    		}
+	    		else if (direction == 3) { //left one & up one (x - 1, y + 1)
+	    			pos_x = move_x(-1);
+	    			pos_y = move_y(1);
+	    		}
+	    		else if (direction == 4) { //just left (x - 1)
+	    			pos_x = move_x(-1);
+	    		}
+	    		else if (direction == 5) { //left one & down one (x - 1, y - 1)
+	    			pos_x = move_x(-1);
+	    			pos_y = move_y(-1);
+	    		}
+	    		else if (direction == 6) { //down (y-1)
+	    			pos_y = move_y(-1);
+	    		}
+	    		else if (direction == 7) { //down one & right one (x + 1, y - 1)
+	    			pos_x = move_x(1);
+	    			pos_y = move_y(-1);
+			}
+	    }
+	    	
+	    	else if (steps == true) {
+	    		if (direction == 0) { // direction is to the right (x + 1)
+	    			pos_x = move_x(2);
+	    		}
+	    		else if (direction == 1) { //right one & up one (x + 1 and y + 1)
+	    			pos_x = move_x(2);
+	    			pos_y = move_y(2);			
+	    		}
+	    		else if (direction == 2) { //up (y + 1)
+	    			pos_y = move_y(2);
+	    		}
+	    		else if (direction == 3) { //left one & up one (x - 1, y + 1)
+	    			pos_x = move_x(-2);
+	    			pos_y = move_y(2);
+	    		}
+	    		else if (direction == 4) { //just left (x - 1)
+	    			pos_x = move_x(-2);
+	    		}
+	    		else if (direction == 5) { //left one & down one (x - 1, y - 1)
+	    			pos_x = move_x(-2);
+	    			pos_y = move_y(-2);
+	    		}
+	    		else if (direction == 6) { //down (y-1)
+	    			pos_y = move_y(-2);
+	    		}
+	    		else if (direction == 7) { //down one & right one (x + 1, y - 1)
+	    			pos_x = move_x(2);
+	    			pos_y = move_y(-2);
+			}
+	    }
+	    }
+	    
+	    else {
+	    	if (steps == false) {
+	    		if (direction == 0) { // direction is to the right (x + 1)
+	    			pos_x = move_prev_x(1);
+	    		}
+	    		else if (direction == 1) { //right one & up one (x + 1 and y + 1)
+	    			pos_x = move_prev_x(1);
+	    			pos_y = move_prev_y(1);			
+	    		}
+	    		else if (direction == 2) { //up (y + 1)
+	    			pos_y = move_prev_y(1);
+	    		}
+	    		else if (direction == 3) { //left one & up one (x - 1, y + 1)
+	    			pos_x = move_prev_x(-1);
+	    			pos_y = move_prev_y(1);
+	    		}
+	    		else if (direction == 4) { //just left (x - 1)
+	    			pos_x = move_prev_x(-1);
+	    		}
+	    		else if (direction == 5) { //left one & down one (x - 1, y - 1)
+	    			pos_x = move_prev_x(-1);
+	    			pos_y = move_prev_y(-1);
+	    		}
+	    		else if (direction == 6) { //down (y-1)
+	    			pos_y = move_prev_y(-1);
+	    		}
+	    		else if (direction == 7) { //down one & right one (x + 1, y - 1)
+	    			pos_x = move_prev_x(1);
+	    			pos_y = move_prev_y(-1);
+	    		}
+	    	}
+	    	
+	    	else if (steps == true) {
+	    		if (direction == 0) { // direction is to the right (x + 1)
+	    			pos_x = move_prev_x(2);
+	    		}
+	    		else if (direction == 1) { //right one & up one (x + 1 and y + 1)
+	    			pos_x = move_prev_x(2);
+	    			pos_y = move_prev_y(2);			
+	    		}
+	    		else if (direction == 2) { //up (y + 1)
+	    			pos_y = move_prev_y(2);
+	    		}
+	    		else if (direction == 3) { //left one & up one (x - 1, y + 1)
+	    			pos_x = move_prev_x(-2);
+	    			pos_y = move_prev_y(2);
+	    		}
+	    		else if (direction == 4) { //just left (x - 1)
+	    			pos_x = move_prev_x(-2);
+	    		}
+	    		else if (direction == 5) { //left one & down one (x - 1, y - 1)
+	    			pos_x = move_prev_x(-2);
+	    			pos_y = move_prev_y(-2);
+	    		}
+	    		else if (direction == 6) { //down (y-1)
+	    			pos_y = move_prev_y(-2);
+	    		}
+	    		else if (direction == 7) { //down one & right one (x + 1, y - 1)
+	    			pos_x = move_prev_x(2);
+	    			pos_y = move_prev_y(-2);
+	    		}
+	    	}
+	    }
+	    
+	    if (method_called.equals("fight")) {
+	    	for (Critter a : population) {
+	    		if (a.x_coord == pos_x) {
+	    			if (a.y_coord == pos_y) {
+	    				occupied = true;
+	    				crit = a.toString();
+	    			}
+	    		}
+	    	}
+	    }
+	    
+	    else {
+	    	for (Critter a : population) {
+	    		if (a.x_coord == pos_x) {
+	    			if (a.y_coord == pos_y) {
+	    				occupied = true;
+	    				crit = a.toString();
+	    			}
+	    		}
+	    	}
+	    	
+	    }
+	    
+	    if (occupied) { return crit; }
+	    else return null;
+	    
+	    
+	    
+	}
+	
+	
 	
 	/* End of Project 5 New Stuff*/
 	
@@ -89,6 +265,35 @@ public abstract class Critter {
 	private boolean move;
 	private int x_coord;
 	private int y_coord;
+	private int x_coord_prev;
+	private int y_coord_prev;
+	
+	
+	private final int move_prev_y(int move) {
+		if ((y_coord_prev + move) > (Params.world_height - 1)) { //incase you go off the world you need wrap around
+			return (move - 1); //so if i'm at the very end of the world and i take one step up, you need to come all the way down
+		}
+		else if ((y_coord_prev + move) < 0) { //you were at the very bottom but then you just moved back, so you need to go to very top
+			return (Params.world_height + move);
+		}
+		else { //your move is valid & there's no need to wrap around
+			return (y_coord_prev + move);
+		}
+	}
+	
+	private final int move_prev_x(int move) {
+		if ((x_coord_prev + move) > (Params.world_width - 1)) { //incase you go off the world you need wrap around
+			return (move - 1); //so if i'm at the very end of the world and i take one step to the right you need to be back at 0
+		}
+		else if ((x_coord_prev + move) < 0) { //you were at the very left but then you just moved back, so you need to go to the other side of the world
+			return (Params.world_width + move);
+		}
+		else { //your move is valid & there's no need to wrap around
+			return (x_coord_prev + move);
+		}
+	}
+	
+	
 	
 	
 	private final int move_y(int move) {
@@ -116,6 +321,8 @@ public abstract class Critter {
 	}
 	
 	protected final void walk(int direction) {
+		x_coord_prev = x_coord;
+		y_coord_prev = y_coord;
 		if (energy <= 0){
 			return;
 		}
@@ -159,6 +366,8 @@ public abstract class Critter {
 	}
 	
 	protected final void run(int direction) {
+		x_coord_prev = x_coord;
+		y_coord_prev = y_coord;
 		if (energy <= 0){
 			return;
 		}
