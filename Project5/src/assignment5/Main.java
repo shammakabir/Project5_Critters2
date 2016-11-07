@@ -15,6 +15,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
@@ -37,6 +39,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import javafx.util.converter.IntegerStringConverter;
 
 
@@ -55,7 +58,7 @@ public class Main extends Application{
 
 	static boolean mcIsTextfieldLegal = true;
 	private static int FrameSteps = 1;
-	private Animate animation = new Animate();
+	//private Animate animation = new Animate();
 	
 	
 	public static String newSeed = "none";
@@ -348,68 +351,7 @@ public class Main extends Application{
 			grid.add(time_hundred, 1, 3);
 			grid.add(time_thousand, 2, 3);
 
-			
-//************************************************ ANIMATION STUFF **************************************************//	
-			
-			Label ani = new Label("Animation");
-			
-
-			ani.setFont(Font.font("Verdana", FontPosture.ITALIC, 15));
-			ani.setTextFill(Color.BLUE);
-			
-			
-			grid.add(ani, 0, 5);
-			
-			
-			Button aniBtn = new Button("Start Animation");
-			aniBtn.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					
-				//disable everything 
-				makeCritterSubmit.setDisable(true);
-				time_one.setDisable(true);
-				time_hundred.setDisable(true);
-				time_thousand.setDisable(true);
-				time.setDisable(true);
-				}
-			});
-			
-			aniBtn.setDisable(true);
-			
 		
-			
-			Slider aniSlide = new Slider();
-			aniSlide.setMin(1);
-			aniSlide.setMax(100);
-			aniSlide.setValue(40);
-			aniSlide.setShowTickLabels(true);
-			aniSlide.setShowTickMarks(true);
-			aniSlide.setMajorTickUnit(50);
-			aniSlide.setMinorTickCount(5);
-			aniSlide.setBlockIncrement(10);
-			aniSlide.valueProperty().addListener((observable, oldValue, newValue) ->
-			aniSlide.setValue(Math.round(aniSlide.getValue())));
-			
-			Label sliderNums = new Label("Speed of Animation: ");
-			
-			
-			
-			aniSlide.valueProperty().addListener((observable, oldValue, newValue) -> {
-				sliderNums.setText("Speed of Animation: " + aniSlide.getValue());
-				FrameSteps = (int)aniSlide.getValue();
-				aniBtn.setDisable(false);
-			});
-			
-			aniBtn.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle(ActionEvent event) {
-					animation.run();
-				}
-			});
-				
-			grid.add(sliderNums, 0, 6);
-			grid.add(aniSlide, 1, 6);
-			grid.add(aniBtn, 2, 6);
 			
 			
 //***************************SETTING SEED**************************//
@@ -476,6 +418,106 @@ public class Main extends Application{
 			
 			
 			grid.add(seedSubmit, 2, 8);
+			
+			
+			
+//************************************************ ANIMATION STUFF **************************************************//	
+			
+			Label ani = new Label("Animation");
+			
+
+			ani.setFont(Font.font("Verdana", FontPosture.ITALIC, 15));
+			ani.setTextFill(Color.BLUE);
+			
+			
+			grid.add(ani, 0, 5);
+			
+			Slider aniSlide = new Slider();
+			aniSlide.setMin(1);
+			aniSlide.setMax(100);
+			aniSlide.setValue(40);
+			aniSlide.setShowTickLabels(true);
+			aniSlide.setShowTickMarks(true);
+			aniSlide.setMajorTickUnit(50);
+			aniSlide.setMinorTickCount(5);
+			aniSlide.setBlockIncrement(10);
+			aniSlide.valueProperty().addListener((observable, oldValue, newValue) ->
+			aniSlide.setValue(Math.round(aniSlide.getValue())));
+			
+			Label sliderNums = new Label("FrameSpeed of Animation: ");
+			FrameSteps = (int)aniSlide.getValue();
+			
+			Timeline animation = new Timeline(new KeyFrame(
+			        Duration.millis(FrameSteps),
+			        ae -> {
+			        for(int i = 0; i < FrameSteps; i++) {
+						Critter.worldTimeStep();
+					}
+					Critter.displayWorld();
+					}));
+			
+			
+			Button aniBtnStop = new Button("Stop Animation");
+			aniBtnStop.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					
+				//enable everything 
+				makeCritterSubmit.setDisable(false);
+				time_one.setDisable(false);
+				time_hundred.setDisable(false);
+				time_thousand.setDisable(false);
+				time.setDisable(false);
+				seedSubmit.setDisable(false);
+				animation.stop();
+				
+				}
+			});
+			
+			aniBtnStop.setDisable(true);
+			
+			
+			Button aniBtn = new Button("Start Animation");
+			aniBtn.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					
+				//disable everything 
+				makeCritterSubmit.setDisable(true);
+				time_one.setDisable(true);
+				time_hundred.setDisable(true);
+				time_thousand.setDisable(true);
+				time.setDisable(true);
+				seedSubmit.setDisable(true);
+				animation.setCycleCount(Animation.INDEFINITE);
+				animation.play();
+				aniBtnStop.setDisable(false);
+				
+				}
+			});
+			
+			
+			aniBtn.setDisable(true);
+
+
+			
+			
+			
+			aniSlide.valueProperty().addListener((observable, oldValue, newValue) -> {
+				sliderNums.setText("FrameSpeed of Animation: " + aniSlide.getValue());
+				aniBtn.setDisable(false);
+			});
+			
+			
+			
+			
+				
+			grid.add(sliderNums, 0, 6);
+			grid.add(aniSlide, 1, 6);
+			grid.add(aniBtn, 2, 6);	
+			grid.add(aniBtnStop, 3, 6);
+			
+			
 			
 //***************************EXITING OUT**************************//
 			
@@ -544,7 +586,7 @@ public class Main extends Application{
 	}
 	
 	
-	public class Animate extends TimerTask {
+	/*public class Animate extends TimerTask {
 		@Override
 		public void run() {
 			Platform.runLater(() -> {
@@ -555,7 +597,7 @@ public class Main extends Application{
 			});
 		}
 		
-	}
+	}*/
 	
 	public static void main(String[] args) {
 		
