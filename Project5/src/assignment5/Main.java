@@ -448,12 +448,15 @@ public class Main extends Application{
 			FrameSteps = (int)aniSlide.getValue();
 			
 			Timeline animation = new Timeline(new KeyFrame(
-			        Duration.millis(FrameSteps),
-			        ae -> {
-			        for(int i = 0; i < FrameSteps; i++) {
+			        Duration.millis(2),
+			        new EventHandler<ActionEvent>() {
+			        @Override	
+			        	public void handle(ActionEvent event) {
+			        	for(int i = 0; i < FrameSteps; i++) {
 						Critter.worldTimeStep();
-					}
+			        	}
 					Critter.displayWorld();
+			        }
 					}));
 			
 			
