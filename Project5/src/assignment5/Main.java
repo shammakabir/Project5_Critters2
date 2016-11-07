@@ -1,6 +1,7 @@
 package assignment5;
 
 import java.io.File;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.ParsePosition;
@@ -529,9 +530,25 @@ public class Main extends Application{
 				b.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent event) {
-						System.out.println(b.getText());
-					
+						Class<?> myClass = null;
+						
+						try {
+							myClass = Class.forName(myPackage + "." + b.getText());
+														
+							java.util.List<Critter> inst = Critter.getInstances(b.getText());
+							
+							Class<?>[] types = {java.util.List.class};
+							
+							Object mobj = myClass.newInstance();
+							
+							
+							Method m=mobj.getClass().getMethod("runStats", types);
+							m.invoke(null, inst);
+						}
+						catch(Exception e){
+						}
 					}
+					
 				});
 				
 				grid.add(b, 1, 10 + i);
