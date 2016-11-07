@@ -448,7 +448,7 @@ public class Main extends Application{
 			FrameSteps = (int)aniSlide.getValue();
 			
 			Timeline animation = new Timeline(new KeyFrame(
-			        Duration.millis(2),
+			        Duration.millis(2000),
 			        new EventHandler<ActionEvent>() {
 			        @Override	
 			        	public void handle(ActionEvent event) {
@@ -502,19 +502,12 @@ public class Main extends Application{
 			
 			aniBtn.setDisable(true);
 
-
-			
-			
-			
+	
 			aniSlide.valueProperty().addListener((observable, oldValue, newValue) -> {
 				sliderNums.setText("FrameSpeed of Animation: " + aniSlide.getValue());
 				aniBtn.setDisable(false);
 			});
-			
-			
-			
-			
-				
+		
 			grid.add(sliderNums, 0, 6);
 			grid.add(aniSlide, 1, 6);
 			grid.add(aniBtn, 2, 6);	
