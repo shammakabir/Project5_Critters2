@@ -226,7 +226,7 @@ public abstract class Critter {
 	    	}
 	    	
 	    }
-	    energy = Params.look_energy_cost;
+	    energy -= Params.look_energy_cost;
 	    
 	    if (occupied) { 
 	    	return crit; 
