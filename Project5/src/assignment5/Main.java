@@ -450,7 +450,7 @@ public class Main extends Application{
 			FrameSteps = (int)aniSlide.getValue();
 			
 			Timeline animation = new Timeline(new KeyFrame(
-			        Duration.millis(500),
+			        Duration.millis(1000),
 			        new EventHandler<ActionEvent>() {
 			        @Override	
 			        	public void handle(ActionEvent event) {
