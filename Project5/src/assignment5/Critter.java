@@ -851,15 +851,25 @@ public abstract class Critter {
 			return;
 		}
 		
-		if (c1Energy > c2Energy){
+		int randC1 = getRandomInt(population.get(c1).energy);
+		int randC2 = getRandomInt(population.get(c2).energy);
+		
+		if (population.get(c1) instanceof Algae){
+			randC1 = 0;
+		}
+		if (population.get(c2) instanceof Algae){
+			randC2 = 0;
+		}
+		
+		if (randC1 > randC2){
 			population.get(c1).energy += population.get(c2).energy / 2;
 			population.get(c2).energy = 0;
 		}
-		else if (c2Energy > c1Energy){
+		else if (randC2 > randC1){
 			population.get(c2).energy += population.get(c1).energy / 2;
 			population.get(c1).energy = 0;
 		}
-		else if (c1Energy == c2Energy){
+		else if (randC1 == randC2){
 			flipCoin(c1, c2);
 		}
 	}
@@ -940,10 +950,10 @@ public abstract class Critter {
 		// Two Critters will fight
 		if (willC1fight && willC2fight){
 			
-			int l1 = getRandomInt(population.get(c1).energy);
-			int l2 = getRandomInt(population.get(c2).energy);
+			// int l1 = getRandomInt(population.get(c1).energy);
+			// int l2 = getRandomInt(population.get(c2).energy);
 			
-			fighting(c1, c2, l1, l2);
+			fighting(c1, c2, population.get(c1).energy, population.get(c2).energy);
 			return;
 		}
 		else{
@@ -954,10 +964,10 @@ public abstract class Critter {
 				population.get(c1).y_coord == population.get(c2).y_coord &&
 				population.get(c1).energy > 0 && population.get(c2).energy > 0){
 				
-				int l1 = getRandomInt(population.get(c1).energy);
-				int l2 = getRandomInt(population.get(c2).energy);
+				// int l1 = getRandomInt(population.get(c1).energy);
+				// int l2 = getRandomInt(population.get(c2).energy);
 				
-				fighting(c1, c2, l1, l2);
+				fighting(c1, c2, population.get(c1).energy, population.get(c2).energy);
 				return;
 				
 			}
