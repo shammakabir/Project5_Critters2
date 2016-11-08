@@ -1,6 +1,9 @@
 package assignment5;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.text.DecimalFormat;
@@ -30,6 +33,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.GridPane;
@@ -67,6 +71,11 @@ public class Main extends Application{
 
 	//static boolean mcIsTextfieldLegal = true;
 	
+	public static ArrayList<String> critterNames = new ArrayList<String>();
+	public static ArrayList<Boolean> cCheckList = new ArrayList<Boolean>();
+	
+	private static final TextArea textArea = new TextArea();
+	
 	private static String myPackage;
 
 	
@@ -102,6 +111,7 @@ public class Main extends Application{
 			grid.setHgap(10);
 			grid.setVgap(10);
 			
+			Stage console = new Stage();
 			
 //**************************************** MAKE CRITTER STUFF **************************************************//
 			
@@ -119,7 +129,7 @@ public class Main extends Application{
 			ComboBox<String> critterDropdown = new ComboBox<String>();
 			
 			ArrayList<String> classNames = new ArrayList<String>();
-			ArrayList<String> critterNames = new ArrayList<String>();
+			
 			
 			
 			File curDir = new File("./src/assignment5");
@@ -458,6 +468,7 @@ public class Main extends Application{
 						Critter.worldTimeStep();
 			        	}
 					Critter.displayWorld();
+					autoRunStats();
 			        }
 					}));
 			
@@ -524,6 +535,12 @@ public class Main extends Application{
 			
 			grid.add(rStats, 0, 9);
 			
+			
+			for(int i = 0; i < critterNames.size(); i++){
+				cCheckList.add(false);
+			}
+			
+			
 			for(int i = 0; i < critterNames.size(); i++){
 				Button b = new Button(critterNames.get(i));
 				
@@ -554,9 +571,21 @@ public class Main extends Application{
 				grid.add(b, 1, 10 + i);
 				
 				CheckBox cb = new CheckBox(critterNames.get(i));
+				
+				cb.setOnAction((event) -> {
+					int j = 0;
+					while(!critterNames.get(j).equals(cb.getText())){
+						j++;
+					}
+					
+					cCheckList.set(j, cb.isSelected());
+				});
+				
+				
+				
+				
 				grid.add(cb, 0, 10 + i);
 			}
-			
 			
 			
 //***************************EXITING OUT**************************//
@@ -576,12 +605,16 @@ public class Main extends Application{
 //********************************************* SETTING CONTROLLER *************************************************//
 
 
-			Scene scene2 = new Scene(grid, 700, 600);
+			Scene scene2 = new Scene(grid, 700, 800);
 			controlStage.setScene(scene2);
 			controlStage.setTitle("Controls");
 			controlStage.show();
 			
-			
+			textArea.setEditable(false);
+			Scene scene3 = new Scene(textArea, 800, 500);
+			console.setScene(scene3);
+			console.setTitle("Console");
+			console.show();
 			
 		} catch(Exception e) {	
 		}
@@ -641,17 +674,10 @@ public class Main extends Application{
 	
 	public static void main(String[] args) {
 		
-		/*
-		int i = 0;
-    	while(i < 10){ 
-    		try {
-				Critter.makeCritter("Algae");
-				Critter.makeCritter("AlgaephobicCritter");
-			} catch (Exception e) {
-			}
-    		i++;
-    	}*/
-    	
+		PrintStream printStream = new PrintStream(new CustomOutputStream(textArea));
+		System.setOut(printStream);
+		System.setErr(printStream);
+		
 		launch(args);
 	}
 	
@@ -667,6 +693,65 @@ public class Main extends Application{
 			return true;
 		}
 		
+	}
+	
+	/**
+	 * Run all the auto checked Critter stats
+	 */
+	public static void autoRunStats(){
+		for(int i = 0; i < cCheckList.size(); i++){
+			if (cCheckList.get(i)){
+				
+				System.out.println(critterNames.get(i));
+				
+				Class<?> myClass = null;
+				
+				try {
+					myClass = Class.forName(myPackage + "." + critterNames.get(i));
+												
+					java.util.List<Critter> inst = Critter.getInstances(critterNames.get(i));
+					
+					Class<?>[] types = {java.util.List.class};
+					
+					Object mobj = myClass.newInstance();
+					
+					
+					Method m=mobj.getClass().getMethod("runStats", types);
+					m.invoke(null, inst);
+				}
+				catch(Exception e){
+				}
+			}
+		}
+	}
+	
+	public static void println(String s){
+	    Platform.runLater(new Runnable() {//in case you call from other thread
+	        @Override
+	        public void run() {
+	            textArea.setText(textArea.getText()+s+"\n");
+	            // System.out.println(s);//for echo if you want
+	        }
+	    });
+	}
+	
+	
+	public static class CustomOutputStream extends OutputStream {
+	    private TextArea textArea;
+
+	    public CustomOutputStream(TextArea textArea) {
+	        this.textArea = textArea;
+	    }
+
+	    @Override
+	    public void write(int b) throws IOException {
+	        // redirects data to the text area
+	        textArea.appendText(String.valueOf((char)b));
+	        // scrolls the text area to the end of data
+	        // textArea.setCaretPosition(textArea.getDocument().getLength());
+	        // keeps the textArea up to date
+	        // textArea.update(textArea.getGraphics());
+	    }
 	}
 
 }
