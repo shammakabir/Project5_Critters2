@@ -167,8 +167,8 @@ public abstract class Critter {
 	    
 	    else {
 	    	for (Critter a : population) {
-	    		if (a.x_coord == pos_x) {
-	    			if (a.y_coord == pos_y) {
+	    		if (a.x_coord_prev == pos_x) {
+	    			if (a.y_coord_prev == pos_y) {
 	    				occupied = true;
 	    				crit = a.toString();
 	    			}
