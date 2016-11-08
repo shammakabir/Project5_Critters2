@@ -36,6 +36,10 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -57,8 +61,8 @@ public class Main extends Application{
 	public static Shape[][] shapes = new Shape[Params.world_width][Params.world_height];
 	static Rectangle [][] rec = new Rectangle [Params.world_width][Params.world_height];
 	
-	public static final int cellSize = 20;
-	public static final int shapeSize = cellSize - 6;;
+	public static int cellSize = 850 / Math.max(Params.world_width, Params.world_height);; // smallest is 8
+	public static final int shapeSize = cellSize - 2;
 	
 	static boolean mcIsDropdownLegal = false;
 
@@ -92,13 +96,24 @@ public class Main extends Application{
 		try {
 			
 //**************************************** CREATE BOTH STAGES ********************************************//
-			sp.setPrefSize(800, 800);
+			sp.setPrefSize(900, 900);
 			sp.setContent(p);
 			
 			makeSquares();
 			
 			
 			Scene scene = new Scene(sp);
+			// sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+			// sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+			//scene.widthProperty().addListener(observable -> clearIcons(),displayIcons());
+			// scene.heightProperty().addListener(observable -> clearIcons(),displayIcons());
+			
+			// while (Params.world_width * cellSize < )
+			
+			
+			if (cellSize <= 8){
+				// cellSize = 8;
+			}
 			
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Grid");
@@ -497,18 +512,17 @@ public class Main extends Application{
 			aniBtn.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					
-				//disable everything 
-				makeCritterSubmit.setDisable(true);
-				time_one.setDisable(true);
-				time_hundred.setDisable(true);
-				time_thousand.setDisable(true);
-				time.setDisable(true);
-				seedSubmit.setDisable(true);
-				animation.setCycleCount(Animation.INDEFINITE);
-				animation.play();
-				aniBtnStop.setDisable(false);
-				
+
+					// disable everything
+					makeCritterSubmit.setDisable(true);
+					time_one.setDisable(true);
+					time_hundred.setDisable(true);
+					time_thousand.setDisable(true);
+					time.setDisable(true);
+					seedSubmit.setDisable(true);
+					animation.setCycleCount(Animation.INDEFINITE);
+					animation.play();
+					aniBtnStop.setDisable(false);
 				}
 			});
 			

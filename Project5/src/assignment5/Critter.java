@@ -782,7 +782,7 @@ public abstract class Critter {
 			
 			
 		}
-		
+	
 		Main.displayIcons();
 		
 	}
