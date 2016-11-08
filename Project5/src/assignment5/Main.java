@@ -99,7 +99,8 @@ public class Main extends Application{
 			sp.setPrefSize(900, 900);
 			sp.setContent(p);
 			
-			makeSquares();
+			initSquares();
+			showSquares();
 			
 			
 			Scene scene = new Scene(sp);
@@ -112,8 +113,10 @@ public class Main extends Application{
 			
 			
 			if (cellSize <= 8){
-				// cellSize = 8;
+				cellSize = 8;
 			}
+			
+			
 			
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Grid");
@@ -468,23 +471,25 @@ public class Main extends Application{
 			aniSlide.setMajorTickUnit(50);
 			aniSlide.setMinorTickCount(5);
 			aniSlide.setBlockIncrement(10);
-			aniSlide.valueProperty().addListener((observable, oldValue, newValue) ->
-			aniSlide.setValue(Math.round(aniSlide.getValue())));
+			aniSlide.valueProperty().addListener((observable, oldValue, newValue) -> {
+				aniSlide.setValue(Math.round(aniSlide.getValue()));
+				FrameSteps = (int)aniSlide.getValue();
+			});
 			
 			Label sliderNums = new Label("FrameSpeed of Animation: ");
-			FrameSteps = (int)aniSlide.getValue();
+			
 			
 			Timeline animation = new Timeline(new KeyFrame(
 			        Duration.millis(1000),
 			        new EventHandler<ActionEvent>() {
 			        @Override	
 			        	public void handle(ActionEvent event) {
-			        	for(int i = 0; i < FrameSteps; i++) {
-						Critter.worldTimeStep();
+			        		for(int i = 0; i < FrameSteps; i++) {
+			        			Critter.worldTimeStep();
+			        		}
+			        		Critter.displayWorld();
+			        		autoRunStats();
 			        	}
-					Critter.displayWorld();
-					autoRunStats();
-			        }
 					}));
 			
 			
@@ -637,7 +642,17 @@ public class Main extends Application{
 	/**
 	 * Make the squares base grid
 	 */
-	public static void makeSquares(){
+	public static void showSquares(){
+		for(int i = 0; i < Params.world_width; i++){
+			for(int j = 0; j < Params.world_height; j++){
+	            p.getChildren().add(rec[i][j]);
+			}
+		}
+	}
+	/**
+	 * Make squares
+	 */
+	public static void initSquares(){
 		for(int i = 0; i < Params.world_width; i++){
 			for(int j = 0; j < Params.world_height; j++){
 				rec[i][j] = new Rectangle();
@@ -647,7 +662,6 @@ public class Main extends Application{
 	            rec[i][j].setHeight(cellSize);
 	            rec[i][j].setFill(Color.WHITE);
 	            rec[i][j].setStroke(Color.BLACK);
-	            p.getChildren().add(rec[i][j]);
 			}
 		}
 	}
@@ -669,7 +683,7 @@ public class Main extends Application{
 	 */
 	public static void clearIcons(){
 		p.getChildren().clear();
-		makeSquares();
+		showSquares();
 	}
 	
 	
