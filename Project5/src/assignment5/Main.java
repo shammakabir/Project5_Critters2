@@ -54,11 +54,11 @@ public class Main extends Application{
 	static Pane p = new Pane();
 	static GridPane grid = new GridPane();
 	
-	public static Shape[][] shapes = new Shape[Params.world_height][Params.world_width];
-	static Rectangle [][] rec = new Rectangle [Params.world_height][Params.world_width];
+	public static Shape[][] shapes = new Shape[Params.world_width][Params.world_height];
+	static Rectangle [][] rec = new Rectangle [Params.world_width][Params.world_height];
 	
-	public static final int cellSize = 26;
-	public static final int shapeSize = 20;
+	public static final int cellSize = 20;
+	public static final int shapeSize = cellSize - 6;;
 	
 	static boolean mcIsDropdownLegal = false;
 
@@ -624,8 +624,8 @@ public class Main extends Application{
 	 * Make the squares base grid
 	 */
 	public static void makeSquares(){
-		for(int i = 0; i < Params.world_height; i++){
-			for(int j = 0; j < Params.world_width; j++){
+		for(int i = 0; i < Params.world_width; i++){
+			for(int j = 0; j < Params.world_height; j++){
 				rec[i][j] = new Rectangle();
 				rec[i][j].setX(i * cellSize);
 	            rec[i][j].setY(j * cellSize);
@@ -643,8 +643,8 @@ public class Main extends Application{
 	 */
 	public static void displayIcons(){
 		clearIcons();
-		for(int i = 0; i < Params.world_height; i++){
-			for(int j = 0; j < Params.world_width; j++){
+		for(int i = 0; i < Params.world_width; i++){
+			for(int j = 0; j < Params.world_height; j++){
 	            p.getChildren().add(shapes[i][j]);
 			}
 		}

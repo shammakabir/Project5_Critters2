@@ -665,8 +665,8 @@ public abstract class Critter {
 		// Main.clearIcons();
 		
 		
-		for(int i = 0; i < Params.world_height; i++){
-			for(int j = 0; j < Params.world_width; j++){
+		for(int i = 0; i < Params.world_width; i++){
+			for(int j = 0; j < Params.world_height; j++){
 	            Main.shapes[i][j] = new Circle();
 			}
 		}
