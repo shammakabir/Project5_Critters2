@@ -340,9 +340,9 @@ public class Main extends Application{
 			
 			Button time_one = new Button("TimeStep + 1");
 			
-			Button time_hundred = new Button("TimeStep + 100");
+			Button time_hundred = new Button("TimeStep + 50");
 			
-			Button time_thousand = new Button("TimeStep + 1000");
+			Button time_thousand = new Button("TimeStep + 100");
 			
 			time_one.setOnAction(new EventHandler<ActionEvent>() {
 				@Override 
@@ -358,7 +358,7 @@ public class Main extends Application{
 			time_hundred.setOnAction(new EventHandler<ActionEvent>() {
 				@Override 
 				public void handle(ActionEvent event) {
-					for (int i = 0; i < 100; i ++) {
+					for (int i = 0; i < 50; i ++) {
 						Critter.worldTimeStep();
 					}
 					Critter.displayWorld();
@@ -370,7 +370,7 @@ public class Main extends Application{
 			time_thousand.setOnAction(new EventHandler<ActionEvent>() {
 				@Override 
 				public void handle(ActionEvent event) {
-					for (int i = 0; i < 1000; i ++) {
+					for (int i = 0; i < 100; i ++) {
 						Critter.worldTimeStep();
 					}
 					Critter.displayWorld();
@@ -609,6 +609,14 @@ public class Main extends Application{
 			
 //***************************EXITING OUT**************************//
 			
+			Label end = new Label("Exit Out");
+			
+
+			end.setFont(Font.font("Verdana", FontPosture.ITALIC, 15));
+			end.setTextFill(Color.BLUE);
+			
+			grid.add(end, 4, 0);
+			
 			Button exit = new Button("Exit");
 			exit.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
@@ -618,7 +626,7 @@ public class Main extends Application{
 				
 			});
 			
-			grid.add(exit, 3, 1);
+			grid.add(exit, 4, 1);
 			
 
 //********************************************* SETTING CONTROLLER *************************************************//
